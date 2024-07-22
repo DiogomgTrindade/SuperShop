@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SuperShop.Data.Entities;
 
-namespace SuperShop.Data.Entities
+namespace SuperShop.Data
 {
     public class SeedDb
     {
@@ -19,7 +20,7 @@ namespace SuperShop.Data.Entities
         {
             await _context.Database.EnsureCreatedAsync();
 
-            if(!_context.Products.Any())
+            if (!_context.Products.Any())
             {
                 AddProduct("iPhone X");
                 AddProduct("Magic Mouse");

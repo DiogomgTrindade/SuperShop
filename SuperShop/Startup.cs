@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SuperShop.Data;
-using SuperShop.Data.Entities;
 
 namespace SuperShop
 {
@@ -27,7 +26,12 @@ namespace SuperShop
             });
 
 
+            //É criado e desaparece
             services.AddTransient<SeedDb>();
+
+            //Fica sempre lá
+            services.AddScoped<IRepository, Repository>();
+
             services.AddControllersWithViews();
         }
 
