@@ -30,7 +30,7 @@ namespace SuperShop
             services.AddTransient<SeedDb>();
 
             //Fica sempre lá
-            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             services.AddControllersWithViews();
         }

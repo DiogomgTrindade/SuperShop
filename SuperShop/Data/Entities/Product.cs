@@ -6,10 +6,11 @@ using System.Data;
 
 namespace SuperShop.Data.Entities
 {
-    public class Product
+    public class Product : IEntity
     {
 
         public int Id { get; set; }
+
 
         [Required]
         [MaxLength(50, ErrorMessage ="The field {0} can contain {1} characters length.")]
