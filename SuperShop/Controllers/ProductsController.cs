@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Data;
 using SuperShop.Data.Entities;
+using SuperShop.Helpers;
 
 
 namespace SuperShop.Controllers
@@ -10,17 +12,23 @@ namespace SuperShop.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductRepository _productRepository;
+        private readonly IUserHelper _userHelper;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(
+            IProductRepository productRepository,
+            IUserHelper userHelper)
         {
             _productRepository = productRepository;
+            _userHelper = userHelper;
         }
+
 
         // GET: Products
         public IActionResult Index()
         {
-            return View(_productRepository.GetAll());
+            return View(_productRepository.GetAll().OrderBy(p => p.Name));
         }
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -39,11 +47,13 @@ namespace SuperShop.Controllers
             return View(product);
         }
 
+
         // GET: Products/Create
         public IActionResult Create()
         {
             return View();
         }
+
 
 
 
@@ -56,11 +66,16 @@ namespace SuperShop.Controllers
         {
             if (ModelState.IsValid)
             {
+                //TODO: Modificar para o user que tiver logado
+                product.User = await _userHelper.GetUserByEmailAsync("diogovsky1904@gmail.com");
+
                 await _productRepository.CreateAsync(product);
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
         }
+
+
 
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -80,6 +95,7 @@ namespace SuperShop.Controllers
 
 
 
+
         // POST: Products/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -96,7 +112,9 @@ namespace SuperShop.Controllers
             {
                 try
                 {
-                   await _productRepository.UpdateAsync(product);
+                    //TODO: Modificar para o user que tiver logado
+                    product.User = await _userHelper.GetUserByEmailAsync("diogovsky1904@gmail.com");
+                    await _productRepository.UpdateAsync(product);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -118,6 +136,7 @@ namespace SuperShop.Controllers
 
 
 
+
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -134,6 +153,8 @@ namespace SuperShop.Controllers
 
             return View(product);
         }
+
+
 
 
 
