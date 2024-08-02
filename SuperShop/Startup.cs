@@ -78,6 +78,7 @@ namespace SuperShop
 
             app.UseRouting();
 
+            // Antes da autorização meter a authentication
             app.UseAuthentication();
             app.UseAuthorization();
 
