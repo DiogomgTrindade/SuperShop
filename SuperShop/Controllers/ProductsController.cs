@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Data;
-using SuperShop.Data.Entities;
 using SuperShop.Helpers;
 using SuperShop.Models;
 
@@ -16,18 +14,18 @@ namespace SuperShop.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly IUserHelper _userHelper;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
 
         public ProductsController(
             IProductRepository productRepository,
             IUserHelper userHelper,
-            IImageHelper imageHelper,
+            IBlobHelper blobHelper,
             IConverterHelper converterHelper)
         {
             _productRepository = productRepository;
             _userHelper = userHelper;
-            _imageHelper = imageHelper;
+            _blobHelper = blobHelper;
             _converterHelper = converterHelper;
         }
 
@@ -75,18 +73,19 @@ namespace SuperShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
+
+                Guid imageId = Guid.Empty;
+
 
                 //  imagens
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    
 
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "products");
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");
 
                 }
 
-                var product = _converterHelper.ToProduct(model, path, true);
+                var product = _converterHelper.ToProduct(model, imageId, true);
 
 
                 //TODO: Modificar para o user que tiver logado
@@ -98,7 +97,7 @@ namespace SuperShop.Controllers
             return View(model);
         }
 
-       
+
 
 
         // GET: Products/Edit/5
@@ -128,22 +127,21 @@ namespace SuperShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ProductViewModel model)
         {
-            
+
             if (ModelState.IsValid)
             {
                 try
                 {
 
-
-                    var path = model.ImageUrl;
+                    Guid imageId = model.ImageId;
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
 
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "products");
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "products");
                     }
 
-                    var product = _converterHelper.ToProduct(model, path, false);
+                    var product = _converterHelper.ToProduct(model, imageId, false);
 
 
                     //TODO: Modificar para o user que tiver logado
@@ -152,7 +150,7 @@ namespace SuperShop.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _productRepository.ExistAsync(model.Id))
+                    if (!await _productRepository.ExistAsync(model.Id))
                     {
                         return NotFound();
                     }
@@ -179,7 +177,7 @@ namespace SuperShop.Controllers
                 return NotFound();
             }
 
-            var product = await  _productRepository.GetByIdAsync(id.Value);
+            var product = await _productRepository.GetByIdAsync(id.Value);
             if (product == null)
             {
                 return NotFound();

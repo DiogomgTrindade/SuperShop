@@ -50,10 +50,9 @@
             </dl>
         </div>
         <div class="col-md-4">
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:400px;height:350px;max-width:100%;height:auto">
-            }
+
+                <img src="@Url.Content(Model.ImageFullPath)" alt="Image" style="width:400px;height:350px;max-width:100%;height:auto">
+
         </div>
     </div>
 </div>
