@@ -23,7 +23,13 @@ namespace SuperShop.Data
 
         public async Task SeedAsync()
         {
+            //Cria a DB
             await _context.Database.EnsureCreatedAsync();
+
+            await _userHelper.CheckRolesAsync("Admin");
+            await _userHelper.CheckRolesAsync("Customer");
+
+
 
             var user = await _userHelper.GetUserByEmailAsync("diogovsky1904@gmail.com");
             if (user == null)
@@ -42,6 +48,15 @@ namespace SuperShop.Data
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
                 }
+
+                await _userHelper.AddUserToRoleAsync(user, "Admin");
+            }
+
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+            if (!isInRole) 
+            {
+                await _userHelper.AddUserToRoleAsync(user, "Admin");
+
             }
 
 
