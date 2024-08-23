@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SuperShop.Data.Entities;
 using SuperShop.Helpers;
 
@@ -24,7 +25,7 @@ namespace SuperShop.Data
         public async Task SeedAsync()
         {
             //Cria a DB
-            await _context.Database.EnsureCreatedAsync();
+            await _context.Database.MigrateAsync();
 
             await _userHelper.CheckRolesAsync("Admin");
             await _userHelper.CheckRolesAsync("Customer");
