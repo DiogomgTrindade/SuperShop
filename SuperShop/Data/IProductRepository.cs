@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SuperShop.Data.Entities;
 
 namespace SuperShop.Data
@@ -7,5 +9,8 @@ namespace SuperShop.Data
     {
 
         public IQueryable GetAllWithUsers();
+
+        IEnumerable<SelectListItem> GetComboProducts();
+
     }
 }
