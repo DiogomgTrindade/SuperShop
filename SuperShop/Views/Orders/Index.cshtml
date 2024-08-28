@@ -7,7 +7,7 @@
 <h1>Orders</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New Order</a>
 </p>
 <table class="table">
     <thead>
@@ -24,9 +24,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.DeliveryDate)
             </th>
+            @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+            {   
             <th>
                 @Html.DisplayNameFor(model => model.Lines)
             </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
