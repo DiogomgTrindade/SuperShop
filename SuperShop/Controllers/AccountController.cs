@@ -94,6 +94,7 @@ namespace SuperShop.Controllers
                         Username = model.Username
                     };
 
+
                     var result2 = await _userHelper.LoginAsync(loginViewModel);
                     if (result2.Succeeded)
                     {
