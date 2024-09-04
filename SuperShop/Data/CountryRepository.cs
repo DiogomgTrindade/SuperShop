@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using SuperShop.Data.Entities;
 using SuperShop.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,6 +16,7 @@ namespace SuperShop.Data
         {
             _context = context;
         }
+
 
         public async Task AddCityAsync(CityViewModel model)
         {
@@ -32,6 +35,7 @@ namespace SuperShop.Data
             await _context.SaveChangesAsync();
         }
 
+
         public async Task<int> DeleteCityAsync(City city)
         {
             var country = await _context.Countries
@@ -48,10 +52,56 @@ namespace SuperShop.Data
             return country.Id;
         }
 
+
         public async Task<City> GetCityAsync(int id)
         {
             return await _context.Cities.FindAsync(id);
         }
+
+
+        public IEnumerable<SelectListItem> GetComboCities(int countryid)
+        {
+            var country = _context.Countries.Find(countryid);
+            var list = new List<SelectListItem>();
+            if (country != null)
+            {
+                list = _context.Cities.Select(c => new SelectListItem
+                {
+                    Text = c.Name,
+                    Value = c.Id.ToString()
+                }).OrderBy(l => l.Text).ToList();
+
+
+                list.Insert(0, new SelectListItem
+                {
+                    Text = "(Select a city...)",
+                    Value = "0"
+                });
+
+            }
+
+            return list;
+        }
+
+
+        public IEnumerable<SelectListItem> GetComboCountries()
+        {
+            var list = _context.Countries.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            }).OrderBy(l => l.Text).ToList();
+
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "(Select a country...)",
+                Value = "0"
+            });
+
+            return list;
+        }
+
 
         public IQueryable GetCountriesWithCities()
         {
@@ -59,6 +109,7 @@ namespace SuperShop.Data
                 .Include(c => c.Cities)
                 .OrderBy(c => c.Name);
         }
+
 
         public Task<Country> GetCountriesWithCitiesAsync(int id)
         {
@@ -68,12 +119,14 @@ namespace SuperShop.Data
                .FirstOrDefaultAsync();
         }
 
+
         public async Task<Country> GetCountryAsync(City city)
         {
             return await _context.Countries
                 .Where(c => c.Cities.Any(ci => ci.Id == city.Id))
                 .FirstOrDefaultAsync();
         }
+
 
         public async Task<int> UpdateCityAsync(City city)
         {
