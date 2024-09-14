@@ -150,5 +150,25 @@ namespace SuperShop.Controllers
 
             return View();
         }
+
+        public async Task<IActionResult> Delete (int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _orderRepository.GetByIdAsync(id.Value);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            await _orderRepository.DeleteOrder(Convert.ToInt32(id));
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

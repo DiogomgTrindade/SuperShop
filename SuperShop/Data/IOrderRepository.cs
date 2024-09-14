@@ -31,6 +31,7 @@ namespace SuperShop.Data
 
         Task<Order> GetOrderAsync(int id);
 
+        Task DeleteOrder(int id);
 
     }
 }

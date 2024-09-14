@@ -184,5 +184,22 @@ namespace SuperShop.Data
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task DeleteOrder(int id)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            var orderTemp = await _context.OrderDetails.FindAsync(id);
+
+            if (order == null)
+            {
+                return;
+            }
+
+            _context.Orders.Remove(order);
+            _context.OrderDetails.Remove(orderTemp);
+
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
