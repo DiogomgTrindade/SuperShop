@@ -5,7 +5,9 @@ using SQLitePCL;
 using SuperShop.Data;
 using SuperShop.Data.Entities;
 using SuperShop.Models;
+using System;
 using System.Threading.Tasks;
+using Vereyon.Web;
 
 namespace SuperShop.Controllers
 {
@@ -14,9 +16,12 @@ namespace SuperShop.Controllers
     {
         private readonly ICountryRepository _countryRepository;
 
-        public CountriesController(ICountryRepository countryRepository)
+        private readonly IFlashMessage _flashmessage;
+
+        public CountriesController(ICountryRepository countryRepository, IFlashMessage flashMessage)
         {
             _countryRepository = countryRepository;
+            _flashmessage = flashMessage;
         }
 
         public IActionResult Index()
@@ -143,8 +148,17 @@ namespace SuperShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _countryRepository.CreateAsync(country);
-                return RedirectToAction("Index");
+                try
+                {
+                    await _countryRepository.CreateAsync(country);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception)
+                {
+
+                    _flashmessage.Danger("This country already exist!");
+                }
+                return View(country);
             }
 
             return View(country);

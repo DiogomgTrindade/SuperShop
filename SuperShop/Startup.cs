@@ -15,6 +15,7 @@ using Azure.Storage.Blobs;
 using Azure.Core.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Vereyon.Web;
 
 namespace SuperShop
 {
@@ -66,6 +67,9 @@ namespace SuperShop
             {
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddFlashMessage();
+
 
 
             //É criado e desaparece
