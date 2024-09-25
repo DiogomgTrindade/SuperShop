@@ -1,11 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             x:Class="SuperShop.Prism.App">
-  <Application.Resources>
+<prism:PrismApplication
+    x:Class="SuperShop.Prism.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:prism="http://prismlibrary.com">
+    <Application.Resources>
 
-    <!-- Application resource dictionary -->
+        <!--  Application resource dictionary  -->
+        <ResourceDictionary>
+            <!--  Parameters  -->
+            <x:String x:Key="UrlAPI">https://supershopdmgt.azurewebsites.net</x:String>
+            
+            
+        </ResourceDictionary>
 
   </Application.Resources>
 </prism:PrismApplication>
