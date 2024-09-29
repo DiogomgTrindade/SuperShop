@@ -11,7 +11,7 @@
             <!--  Parameters  -->
             <x:String x:Key="UrlAPI">https://supershopdmgt.azurewebsites.net</x:String>
             
-            
+
         </ResourceDictionary>
 
   </Application.Resources>
