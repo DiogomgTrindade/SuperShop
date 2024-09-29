@@ -6,7 +6,8 @@
              xmlns:i18n="clr-namespace:SuperShop.Prism.Helpers"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="SuperShop.Prism.Views.ProductDetailPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource ColorBackground}">
 
     <ScrollView>
         <StackLayout Padding="10">

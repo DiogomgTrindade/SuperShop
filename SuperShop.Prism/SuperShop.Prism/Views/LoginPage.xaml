@@ -5,7 +5,8 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              Title="{Binding Title}"
-             x:Class="SuperShop.Prism.Views.LoginPage">
+             x:Class="SuperShop.Prism.Views.LoginPage"
+             BackgroundColor="{StaticResource ColorBackground}">
 
     <StackLayout Padding="10" >
         <Label Text="Email" />
