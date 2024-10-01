@@ -139,4 +139,16 @@
   <data name="IsAvailable" xml:space="preserve">
     <value>Está disponible</value>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
+  <data name="ModifyUser" xml:space="preserve">
+    <value>Modificar  usuario</value>
+  </data>
+  <data name="ShowPurchaseHistory" xml:space="preserve">
+    <value>Mostrar historial de compra</value>
+  </data>
+  <data name="ShowShoppingCart" xml:space="preserve">
+    <value>Mostrar carrito de compras</value>
+  </data>
 </root>
